@@ -1,0 +1,66 @@
+from nltk.corpus import stopwords #download by python -m nltk.downloader stopwords in the cmd
+import nltk #download the tokenizer english by python -m nltk.downloader punkt in the cmd
+#before you use pytesseract by google download the api from https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-v5.0.0-alpha.20191010.exe
+#then change the type pytesseract.pytesseract.tesseract_cmd = Installed loaction/folder
+import pytesseract as pt
+from PIL import Image
+from gingerit.gingerit import GingerIt
+import spacy
+import en_core_web_sm #install by python -m spacy download en'
+nlp = en_core_web_sm.load()
+
+stop_words = stopwords.words("english")
+extensions1 = ['jpg','png','jpeg','bmp']
+extensions2= ['pdf']
+#picture function
+def picture(filename):
+    s = Image.open(filename)
+    text = pt.image_to_string(s)
+    return text
+#text function
+def txt(text):
+    t = open(text)
+    return t
+#get the words
+def word(filename_or_text, final_type):
+   try:
+       if filename_or_text.rsplit('.',1)[1].lower() in extensions:
+           c = picture(filename_or_text)
+       else:
+           c = txt(filename_or_text)
+   except IndexError:
+       c= txt(filename_or_text)
+   tok_text = nltk.sent_tokenize(c)
+   for s in tok_text:
+       tk_txt = nltk.word_tokenize(s) 
+   final_text = []
+   for i in tk_txt:
+       if i not in stop_words:
+           final_text.append(i)
+   from gensim import corpora
+   dictionary = corpora.Dictionary(final_text)
+   corpus = [dictionary.doc2bow(text) for text in final_text]
+   import pickle
+   pickle.dump(corpus, open('corpus.pkl', 'wb'))
+   dictionary.save('dictionary.gensim') 
+   import gensim
+   NUM_TOPICS = 15
+   ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics = NUM_TOPICS, id2word=dictionary, passes=15)
+   ldamodel.save('model1.gensim')
+   topics = ldamodel.print_topics(num_words=10)
+   from gensim.parsing.preprocessing import preprocess_string, strip_punctuation,strip_numeric
+
+   lda_topics = ldamodel.show_topics(num_words=10)
+
+   topics = []
+   filters = [lambda x: x.lower(), strip_punctuation, strip_numeric]
+
+   for topic in lda_topics:
+    topics.append(preprocess_string(topic[1], filters))
+   import search_google
+   for i in topics:
+    c =''
+    for j in i:
+        c=c+i+' '
+        
+ 
