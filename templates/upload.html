@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title> Image test </title>
+ </head>
+ <body>
+ 
+ <form method =post enctype=multipart/form-data>
+  <p><input type=file name=file>
+     <input type=submit value=Upload></p>
+ </form>
+ {%if text %}
+ <p> The text extracted is> <b>{{ text}} </b></p>
+ {% else %}
+ NO text
+ {% endif %}
+ </body>
+</html>
+ 
