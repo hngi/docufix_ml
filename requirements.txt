@@ -12,3 +12,4 @@ PyMuPDF
 gensim
 difflib
 os
+plagarism
