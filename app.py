@@ -22,33 +22,6 @@ extensions1 = ['jpg','png','jpeg','bmp','svg']
 extensions2= ['pdf','xps','epub']
 pt.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
 #picture function
-# route and function to handle the upload page
-@app.route('/',methods=['POST','GET'])
-def home():
-    return render_template('home.html')
-@app.route('/upload', methods=['GET', 'POST'])
-def upload_page():
-    if request.method == 'POST':
-        # check if there is a file in the request
-        if 'file' not in request.files:
-            return render_template('upload.html', msg='No file selected')
-        file = request.files['file']
-        # if no file is selected
-        if file.filename == '':
-            return render_template('upload.html', msg='No file selected')
-
-        if file and allowed_file(file.filename):
-            extracted_text = sim(file.filename)
-            if extracted_text == '':
-                replyy = 'Sorry Character could not be clearly recognized'
-                return render_template('upload.html',
-                                   msg=replyy)
-            # extract the text and display it
-            return render_template('upload.html',
-                                   msg='Result',
-                                   extracted_text=extracted_text)
-    
-    return render_template('upload.html')
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -169,6 +142,33 @@ def sim(filename_or_text):
     else:
         pp = 'No Plagiarised info found'
     return pp
+# route and function to handle the upload page
+@app.route('/',methods=['POST','GET'])
+def home():
+    return render_template('home.html')
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_page():
+    if request.method == 'POST':
+        # check if there is a file in the request
+        if 'file' not in request.files:
+            return render_template('upload.html', msg='No file selected')
+        file = request.files['file']
+        # if no file is selected
+        if file.filename == '':
+            return render_template('upload.html', msg='No file selected')
+
+        if file and allowed_file(file.filename):
+            extracted_text = sim(file)
+            if extracted_text == '':
+                replyy = 'Sorry Character could not be clearly recognized'
+                return render_template('upload.html',
+                                   msg=replyy)
+            # extract the text and display it
+            return render_template('upload.html',
+                                   msg='Result',
+                                   extracted_text=extracted_text)
+    
+    return render_template('upload.html')
 
 if __name__ == '__main__':
     app.run()
