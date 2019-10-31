@@ -93,7 +93,7 @@ def word(filename_or_text):
            soup = BeautifulSoup(html_content.content, 'html.parser')
            v = soup.findAll('p')
            bb=''
-           for x in len(v):
+           for x in range(len(v)):
                vv = soup.find_all('p')[x].get_text()
                bb = bb+' '+vv
            j.append(bb)
