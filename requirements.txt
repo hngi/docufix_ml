@@ -10,6 +10,3 @@ requests
 PyPDF2
 PyMuPDF
 gensim
-difflib
-os
-plagarism
