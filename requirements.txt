@@ -14,3 +14,4 @@ Werkzeug
 fuzzywuzzy
 python-docx
 python-levenshtein
+rq
