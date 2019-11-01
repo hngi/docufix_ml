@@ -107,7 +107,7 @@ def check(text):
 #get the words
 def word(c):
    tok_text = nltk.sent_tokenize(c)
-   f_text=[]
+   '''f_text=[]
    for s in tok_text:
        tk_txt = nltk.word_tokenize(s)
        final_text = []
@@ -128,9 +128,9 @@ def word(c):
    topics = []
    filters = [lambda x: x.lower(), strip_punctuation, strip_numeric]
    for topic in lda_topics:
-    topics.append(preprocess_string(topic[1], filters))
+    topics.append(preprocess_string(topic[1], filters))'''
    tp = []
-   for i in topics:
+   for i in tok_text:
         y =''
         for j in i:
             y=y+' '+j
@@ -181,7 +181,7 @@ def sim(c):
            b.append(cosine_sim)
        l= max(b)
     cc.append(l)
-    if max(cc)>=0.25:
+    if max(cc)>=0.4:
         pp = 'Warning! Plagiarised text detected'
     else:
         pp = 'No Plagiarised info found'
