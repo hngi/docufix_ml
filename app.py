@@ -55,7 +55,7 @@ def upload_page():
             
             p = Queue(connection=conn)
             q = p.enqueue(sim(c))
-            if extracted_text == '':
+            if q == '':
                 replyy = 'Sorry Character could not be clearly recognized'
                 return render_template('upload.html', msg=replyy)
             # extract the text and display it
