@@ -110,11 +110,11 @@ def word(c):
    import pickle
    pickle.dump(corpus, open('corpus.pkl', 'wb'))
    dictionary.save('dictionary.gensim') 
-   NUM_TOPICS = 15
+   NUM_TOPICS = 25
    ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics = NUM_TOPICS, id2word=dictionary, passes=15)
    ldamodel.save('model1.gensim')
    from gensim.parsing.preprocessing import preprocess_string, strip_punctuation,strip_numeric
-   lda_topics = ldamodel.show_topics(num_words=4)
+   lda_topics = ldamodel.show_topics(num_words=5)
    topics = []
    filters = [lambda x: x.lower(), strip_punctuation, strip_numeric]
    for topic in lda_topics:
@@ -141,7 +141,7 @@ def word(c):
         e = check(m)
         results= google_search(e,my_api_key,my_cse_id,num=5)
    j = []    
-   for result in results[:3]:   
+   for result in results[:2]:   
            url=result["link"]   
            html_content = requests.get(url) 
            soup = BeautifulSoup(html_content.content, 'html.parser')
