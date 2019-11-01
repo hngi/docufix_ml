@@ -53,7 +53,8 @@ def upload_page():
             except IndexError:
                 c= txt(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             
-            q = Queue(connection=conn)
+            p = Queue(connection=conn)
+            q = p.enqueue(sim(c))
             if extracted_text == '':
                 replyy = 'Sorry Character could not be clearly recognized'
                 return render_template('upload.html', msg=replyy)
