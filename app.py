@@ -5,6 +5,8 @@ from PIL import Image
 from googleapiclient.discovery import build
 import fitz
 import os
+from rq import Queue
+from worker import conn
 import docx
 from bs4 import BeautifulSoup
 import requests
@@ -54,9 +56,8 @@ def upload_page():
             except IndexError:
                 c= txt(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             
-            #p = Queue(connection=conn)
-            #q = p.enqueue
-            q,t = sim(c)
+            pp = Queue(connection=conn)
+            q,t = p.enqueue(sim(c))
             if q == '':
                 replyy = 'Sorry Character could not be clearly recognized'
                 return render_template('upload.html', text=replyy)
