@@ -38,31 +38,27 @@ def upload_page():
             return render_template('upload.html', msg='No file selected')
 
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            fname = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             try:
                 if file.filename.rsplit('.',1)[1].lower() in extensions1:
-                    c = picture(os.path.join(app.config['UPLOAD_FOLDER'],file.filename)
+                    c = picture(os.path.join(app.config['UPLOAD_FOLDER'],fname)
                 elif file.filename.rsplit('.',1)[1].lower() in extensions2:
-                   c = pdf(os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+                   c = pdf(os.path.join(app.config['UPLOAD_FOLDER'], fname)
                 else:
-                   c = txt(os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+                   c = txt(os.path.join(app.config['UPLOAD_FOLDER'], fname)
             except IndexError:
-                c= txt(file.filename)
+                c= txt(os.path.join(app.config['UPLOAD_FOLDER'], fname)
             extracted_text = sim(c)
             if extracted_text == '':
                 replyy = 'Sorry Character could not be clearly recognized'
-                return render_template('upload.html',
-                                   msg=replyy)
+                return render_template('upload.html', msg=replyy)
             # extract the text and display it
-            return render_template('upload.html',
-                                   msg='Result',
-                                   extracted_text=extracted_text)
+            return render_template('upload.html', msg='Result '+extracted_text)
     
     return render_template('upload.html')
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 def picture(filename):
     s = Image.open(filename)
     text = pt.image_to_string(s)
@@ -87,7 +83,7 @@ def google_search(search_term, api_key, cse_id, **kwargs):
           res = service.cse().list(q=search_term, cx=cse_id, **kwargs).execute()
           return res['items']
     except KeyError:
-        return 'Bad Request'
+        return None
 def check(text):
          p = GingerIt()
          q = p.parse(text)
