@@ -34,11 +34,11 @@ def upload_page():
     if request.method == 'POST':
         # check if there is a file in the request
         if 'file' not in request.files:
-            return render_template('upload.html', msg='No file selected')
+            return render_template('upload.html', text='No file selected')
         file = request.files['file']
         # if no file is selected
         if file.filename == '':
-            return render_template('upload.html', msg='No file selected')
+            return render_template('upload.html', text='No file selected')
 
         if file and allowed_file(file.filename):
             fname = secure_filename(file.filename)
