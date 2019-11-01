@@ -46,7 +46,7 @@ def upload_page():
                 else:
                    c = txt(file.filename)
             except IndexError:
-                c= txt(file)
+                c= txt(file.filename)
             extracted_text = sim(c)
             if extracted_text == '':
                 replyy = 'Sorry Character could not be clearly recognized'
