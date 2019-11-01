@@ -18,7 +18,7 @@ from flask import Flask, request,render_template
 from werkzeug.utils import secure_filename
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg','bmp','pdf','svg','epub'])
 app = Flask(__name__)
-UPLOAD_FOLDER = './templates'
+UPLOAD_FOLDER = './tmp'
 app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER
 stop_words = stopwords.words("english")
 extensions1 = ['jpg','png','jpeg','bmp','svg']
@@ -53,8 +53,9 @@ def upload_page():
             except IndexError:
                 c= txt(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             
-            p = Queue(connection=conn)
-            q = p.enqueue(sim(c))
+            #p = Queue(connection=conn)
+            #q = p.enqueue
+            q = sim(c)
             if q == '':
                 replyy = 'Sorry Character could not be clearly recognized'
                 return render_template('upload.html', msg=replyy)
