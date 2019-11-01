@@ -57,7 +57,7 @@ def upload_page():
                 c= txt(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             
             pp = Queue(connection=conn)
-            q,t = p.enqueue(sim(c))
+            q,t = pp.enqueue(sim(c))
             if q == '':
                 replyy = 'Sorry Character could not be clearly recognized'
                 return render_template('upload.html', text=replyy)
