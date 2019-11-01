@@ -134,11 +134,11 @@ def word(c):
        for result in results[:3]:   
            url=result["link"]   
            html_content = requests.get(url) 
-           soup = BeautifulSoup(html_content.content, 'html.parser',from_encoding="iso-8859-1")
+           soup = BeautifulSoup(html_content.content, 'html.parser')
            v = soup.findAll('p')
            bb=''
            for x in range(len(v)):
-               vv = soup.find_all('p')[x].get_text()
+               vv = soup.findAll('p')[x].get_text()
                bb = bb+' '+vv
            j.append(bb)
        gg.append(j)
@@ -161,7 +161,7 @@ def sim(c):
            b.append(cosine_sim)
        l= max(b)
     cc.append(l)
-    if max(c)>=0.4:
+    if max(cc)>=0.4:
         pp = 'Warning! Plagiarised text detected'
     else:
         pp = 'No Plagiarised info found'
