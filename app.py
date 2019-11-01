@@ -59,12 +59,12 @@ def upload_page():
             
             #p = Queue(connection=conn)
             #q = p.enqueue
-            q = sim(c)
+            q,t = sim(c)
             if q == '':
                 replyy = 'Sorry Character could not be clearly recognized'
                 return render_template('upload.html', text=replyy)
             # extract the text and display it
-            return render_template('upload.html', text='Result: '+q)
+            return render_template('upload.html', text='Result: '+q+'max percentage match: '+t)
     
     return render_template('upload.html')
 def allowed_file(filename):
@@ -185,7 +185,7 @@ def sim(c):
         pp = 'Warning! Plagiarised text detected'
     else:
         pp = 'No Plagiarised info found'
-    return pp
+    return pp,max(cc)
 
 if __name__ == '__main__':
     app.run()
