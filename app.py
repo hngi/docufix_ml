@@ -42,13 +42,13 @@ def upload_page():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             try:
                 if file.filename.rsplit('.',1)[1].lower() in extensions1:
-                    c = picture(os.path.join(app.config['UPLOAD_FOLDER'],fname)
+                    c = picture(os.path.join(app.config['UPLOAD_FOLDER'],fname))
                 elif file.filename.rsplit('.',1)[1].lower() in extensions2:
-                   c = pdf(os.path.join(app.config['UPLOAD_FOLDER'], fname)
+                   c = pdf(os.path.join(app.config['UPLOAD_FOLDER'], fname))
                 else:
-                   c = txt(os.path.join(app.config['UPLOAD_FOLDER'], fname)
+                   c = txt(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             except IndexError:
-                c= txt(os.path.join(app.config['UPLOAD_FOLDER'], fname)
+                c= txt(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             extracted_text = sim(c)
             if extracted_text == '':
                 replyy = 'Sorry Character could not be clearly recognized'
