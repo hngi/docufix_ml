@@ -7,12 +7,11 @@ import PyPDF2
 import fitz
 import os
 import docx
-from worker import conn
 from bs4 import BeautifulSoup
 import requests
 from gensim import corpora
 import gensim
-from difflib import SequenceMatcher
+from fuzzywuzzy import fuzz
 from gingerit.gingerit import GingerIt
 from flask import Flask, request,render_template
 from werkzeug.utils import secure_filename
@@ -25,7 +24,6 @@ extensions1 = ['jpg','png','jpeg','bmp','svg']
 extensions2= ['pdf','xps','epub']
 extensions3=['docx']
 pt.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
-#picture function
 # route and function to handle the upload page
 @app.route('/',methods=['POST','GET'])
 def home():
@@ -64,7 +62,7 @@ def upload_page():
                 replyy = 'Sorry Character could not be clearly recognized'
                 return render_template('upload.html', text=replyy)
             # extract the text and display it
-            return render_template('upload.html', text='Result: '+q+'max percentage match: '+t)
+            return render_template('upload.html', text='Result: '+q+', max percentage match: '+t)
     
     return render_template('upload.html')
 def allowed_file(filename):
@@ -107,7 +105,7 @@ def check(text):
 #get the words
 def word(c):
    tok_text = nltk.sent_tokenize(c)
-   '''f_text=[]
+   f_text=[]
    for s in tok_text:
        tk_txt = nltk.word_tokenize(s)
        final_text = []
@@ -120,8 +118,8 @@ def word(c):
    import pickle
    pickle.dump(corpus, open('corpus.pkl', 'wb'))
    dictionary.save('dictionary.gensim') 
-   NUM_TOPICS = 25
-   ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics = NUM_TOPICS, id2word=dictionary, passes=15)
+   NUM_TOPICS = 15
+   ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics = NUM_TOPICS, id2word=dictionary,chunksize=100, passes=10)
    ldamodel.save('model1.gensim')
    from gensim.parsing.preprocessing import preprocess_string, strip_punctuation,strip_numeric
    lda_topics = ldamodel.show_topics(num_words=5)
@@ -134,54 +132,62 @@ def word(c):
         y =''
         for j in i:
             y=y+' '+j
-        tp.append(y)'''
+        tp.append(y)
    my_api_key = "AIzaSyCaugQenN9PpH5I6agQTcFlkf8hbyAEOKw"
    my_cse_id = "000757437883487112859:wtcjp5mwqmu"
-   gg =[]
    cp=[]
-   '''for z in tp:
+   for z in tp:
     if len(z) >1:
-        cp.append(z)'''
-   if len(tok_text)>=2:
-       for m in tok_text[:2]:
+        cp.append(z)
+   if len(cp)>=2:
+       gg =[]
+       for m in cp[:2]:
         e = check(m)
         results= google_search(e,my_api_key,my_cse_id,num=5)
+        jj = []    
+        for result in results[:2]:   
+               url=result["link"]   
+               html_content = requests.get(url) 
+               soup = BeautifulSoup(html_content.content, 'html.parser')
+               v = soup.findAll('p')
+               bb=''
+               for x in range(len(v)):
+                   vv = soup.findAll('p')[x].get_text()
+                   bb = bb+' '+vv
+               jj.append(bb)
+        gg.append(jj)
    else:
-       for m in tok_text:
+       gg =[]
+       for m in cp:
         e = check(m)
         results= google_search(e,my_api_key,my_cse_id,num=5)
-   j = []    
-   for result in results[:2]:   
-           url=result["link"]   
-           html_content = requests.get(url) 
-           soup = BeautifulSoup(html_content.content, 'html.parser')
-           v = soup.findAll('p')
-           bb=''
-           for x in range(len(v)):
-               vv = soup.findAll('p')[x].get_text()
-               bb = bb+' '+vv
-           j.append(bb)
-   gg.append(j)
+        jj = []    
+        for result in results[:2]:   
+               url=result["link"]   
+               html_content = requests.get(url) 
+               soup = BeautifulSoup(html_content.content, 'html.parser')
+               v = soup.findAll('p')
+               bb=''
+               for x in range(len(v)):
+                   vv = soup.findAll('p')[x].get_text()
+                   bb = bb+' '+vv
+               jj.append(bb)
+        gg.append(jj)
    return gg
 def cosine(a,b):
-    return SequenceMatcher(None, a, b).ratio()
+    return fuzz.token_set_ratio(a,b)
     
 def sim(c):
     m = word(c)        
     cc=[]
     for i in m:
        b =[]
-       xt = []
-       for j in i:
-           if j not in stop_words:
-               xt.append(j)
-       fil = [x for x in xt if x.strip()]
-       for k in fil:
+       for k in i:
            cosine_sim = cosine(c,k)
            b.append(cosine_sim)
        l= max(b)
-    cc.append(l)
-    if max(cc)>=0.4:
+       cc.append(l)
+    if max(cc)>=80:
         pp = 'Warning! Plagiarised text detected'
     else:
         pp = 'No Plagiarised info found'
