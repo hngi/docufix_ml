@@ -3,7 +3,6 @@ import nltk
 import pytesseract as pt
 from PIL import Image
 from googleapiclient.discovery import build
-import PyPDF2
 import fitz
 import os
 import docx
@@ -82,14 +81,11 @@ def docu(filename):
         fullText.append(para.text)
     return '\n'.join(fullText)
 def pdf(filename):
-    file = open(filename,'rb')
-    filereader = PyPDF2.PdfFileReader(file)
     doc = fitz.open(filename)
-    c = filereader.numPages
     d = ''
-    for i in range(c):
-        pageObj = doc.loadPage(i)
-        d = d+' '+ pageObj.getText("text")
+    for i in doc:
+        pageObj = i.getText('text')
+        d = d+' '+ pageObj
     return d
 def google_search(search_term, api_key, cse_id, **kwargs):
     try:
