@@ -178,6 +178,7 @@ def cosine(a,b):
     return fuzz.token_set_ratio(a,b)
     
 def sim(c):
+  try:
     m = word(c)        
     cc=[]
     for i in m:
@@ -187,11 +188,16 @@ def sim(c):
            b.append(cosine_sim)
        l= max(b)
        cc.append(l)
-    if max(cc)>=75:
+    az = max(cc)
+  except ValueError:
+      az = 0
+  if az>=75:
         pp = 'Warning! Plagiarised text detected'
-    else:
+  elif az>0 and az<75:
         pp = 'No Plagiarised info found'
-    return pp,str(max(cc))
+  else:
+        pp = 'Error: not found'
+  return pp,str(az)
 
 if __name__ == '__main__':
     app.run()
