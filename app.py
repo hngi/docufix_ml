@@ -14,8 +14,8 @@ from gingerit.gingerit import GingerIt
 from flask import Flask, request,render_template
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg','bmp','pdf','svg','epub'])
-app = Flask(__name__,template_folder='C:/Users/Ademola/OneDrive/folder/OneDrive/Documents/template')
-#UPLOAD_FOLDER = '/templates/uploads/'
+app = Flask(__name__)
+UPLOAD_FOLDER = '/templates/uploads/'
 
 stop_words = stopwords.words("english")
 extensions1 = ['jpg','png','jpeg','bmp','svg']
