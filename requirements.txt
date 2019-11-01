@@ -11,3 +11,4 @@ PyPDF2
 PyMuPDF
 gensim
 Werkzeug
+rq
