@@ -11,5 +11,6 @@ PyPDF2
 PyMuPDF
 gensim
 Werkzeug
-rq
+fuzzywuzzy
 python-docx
+python-levenshtein
