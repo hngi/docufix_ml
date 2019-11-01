@@ -12,11 +12,11 @@ import gensim
 from difflib import SequenceMatcher
 from gingerit.gingerit import GingerIt
 from flask import Flask, request,render_template
-
+from werkzeug.utils import secure_filename
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg','bmp','pdf','svg','epub'])
 app = Flask(__name__)
-UPLOAD_FOLDER = '/templates/uploads/'
-
+UPLOAD_FOLDER = './templates'
+app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER
 stop_words = stopwords.words("english")
 extensions1 = ['jpg','png','jpeg','bmp','svg']
 extensions2= ['pdf','xps','epub']
@@ -38,13 +38,15 @@ def upload_page():
             return render_template('upload.html', msg='No file selected')
 
         if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             try:
                 if file.filename.rsplit('.',1)[1].lower() in extensions1:
-                    c = picture(file.filename)
+                    c = picture(os.path.join(app.config['UPLOAD_FOLDER'],file.filename)
                 elif file.filename.rsplit('.',1)[1].lower() in extensions2:
-                   c = pdf(file.filename)
+                   c = pdf(os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
                 else:
-                   c = txt(file.filename)
+                   c = txt(os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             except IndexError:
                 c= txt(file.filename)
             extracted_text = sim(c)
