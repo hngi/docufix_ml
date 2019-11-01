@@ -185,7 +185,7 @@ def sim(c):
         pp = 'Warning! Plagiarised text detected'
     else:
         pp = 'No Plagiarised info found'
-    return pp,max(cc)
+    return pp,str(max(cc))
 
 if __name__ == '__main__':
     app.run()
