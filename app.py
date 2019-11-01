@@ -54,8 +54,6 @@ def upload_page():
                 c= txt(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             extracted_text = sim(c)
             q = Queue(connection=conn)
-            from utils import count_words_at_url  
-            result = q.enqueue(count_words_at_url, 'http://heroku.com')
             if extracted_text == '':
                 replyy = 'Sorry Character could not be clearly recognized'
                 return render_template('upload.html', msg=replyy)
