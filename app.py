@@ -118,7 +118,7 @@ def word(c):
    NUM_TOPICS = 15
    ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics = NUM_TOPICS, id2word=dictionary,random_state=100,iterations=25, chunksize=100, passes=10)
    from gensim.parsing.preprocessing import preprocess_string, strip_punctuation,strip_numeric
-   lda_topics = ldamodel.show_topics(num_words=5)
+   lda_topics = ldamodel.show_topics(num_words=7)
    topics = []
    filters = [lambda x: x.lower(), strip_punctuation, strip_numeric]
    for topic in lda_topics:
@@ -191,10 +191,10 @@ def sim(c):
     az = max(cc)
   except ValueError:
       az = 0
-  if az>=75:
-        pp = 'Warning! Plagiarised text detected'
-  elif az>0 and az<75:
-        pp = 'No Plagiarised info found'
+  if az>=60:
+        pp = 'Warning! Plagiarised texts detected'
+  elif az>0 and az<60:
+        pp = 'No much Plagiarised texts found'
   else:
         pp = 'Error: something went wrong!'
   return pp,str(az)
