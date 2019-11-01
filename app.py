@@ -181,7 +181,7 @@ def sim(c):
            b.append(cosine_sim)
        l= max(b)
     cc.append(l)
-    if max(cc)>=0.4:
+    if max(cc)>=0.25:
         pp = 'Warning! Plagiarised text detected'
     else:
         pp = 'No Plagiarised info found'
