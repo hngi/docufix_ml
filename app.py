@@ -109,11 +109,11 @@ def word(c):
    import pickle
    pickle.dump(corpus, open('corpus.pkl', 'wb'))
    dictionary.save('dictionary.gensim') 
-   NUM_TOPICS = 20
+   NUM_TOPICS = 25
    ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics = NUM_TOPICS, id2word=dictionary, passes=15)
    ldamodel.save('model1.gensim')
    from gensim.parsing.preprocessing import preprocess_string, strip_punctuation,strip_numeric
-   lda_topics = ldamodel.show_topics(num_words=5)
+   lda_topics = ldamodel.show_topics(num_words=7)
    topics = []
    filters = [lambda x: x.lower(), strip_punctuation, strip_numeric]
    for topic in lda_topics:
@@ -127,11 +127,11 @@ def word(c):
    my_api_key = "AIzaSyCaugQenN9PpH5I6agQTcFlkf8hbyAEOKw"
    my_cse_id = "000757437883487112859:wtcjp5mwqmu"
    gg =[]
-   for m in tp:
+   for m in tp[:3]:
        e = check(m)
-       results= google_search(e,my_api_key,my_cse_id,num=5)
+       results= google_search(e,my_api_key,my_cse_id,num=10)
        j = []    
-       for result in results:   
+       for result in results[:3]:   
            url=result["link"]   
            html_content = requests.get(url) 
            soup = BeautifulSoup(html_content.content, 'html.parser',from_encoding="iso-8859-1")
