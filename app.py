@@ -128,11 +128,20 @@ def word(c):
    my_api_key = "AIzaSyCaugQenN9PpH5I6agQTcFlkf8hbyAEOKw"
    my_cse_id = "000757437883487112859:wtcjp5mwqmu"
    gg =[]
-   for m in tp[:3]:
-       e = check(m)
-       results= google_search(e,my_api_key,my_cse_id,num=5)
-       j = []    
-       for result in results[:3]:   
+   cp=[]
+   for z in tp:
+    if len(z) >1:
+        cp.append(z)
+   if len(cp)>=2:
+       for m in cp[:2]:
+        e = check(m)
+        results= google_search(e,my_api_key,my_cse_id,num=3)
+   else:
+       for m in cp:
+        e = check(m)
+        results= google—search(e,my_api_key,my_cse_id,num=3)
+   j = []    
+   for result in results[:2]:   
            url=result["link"]   
            html_content = requests.get(url) 
            soup = BeautifulSoup(html_content.content, 'html.parser')
@@ -142,7 +151,7 @@ def word(c):
                vv = soup.findAll('p')[x].get_text()
                bb = bb+' '+vv
            j.append(bb)
-       gg.append(j)
+   gg.append(j)
    return gg
 def cosine(a,b):
     return SequenceMatcher(None, a, b).ratio()
