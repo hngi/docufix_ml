@@ -12,3 +12,4 @@ PyMuPDF
 gensim
 Werkzeug
 rq
+python-docx
