@@ -52,13 +52,13 @@ def upload_page():
                    c = txt(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             except IndexError:
                 c= txt(os.path.join(app.config['UPLOAD_FOLDER'], fname))
-            extracted_text = sim(c)
+            
             q = Queue(connection=conn)
             if extracted_text == '':
                 replyy = 'Sorry Character could not be clearly recognized'
                 return render_template('upload.html', msg=replyy)
             # extract the text and display it
-            return render_template('upload.html', msg='Result '+extracted_text)
+            return render_template('upload.html', msg='Result '+q)
     
     return render_template('upload.html')
 def allowed_file(filename):
