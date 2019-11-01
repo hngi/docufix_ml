@@ -5,6 +5,7 @@ from PIL import Image
 from googleapiclient.discovery import build
 import PyPDF2
 import fitz
+import os
 from bs4 import BeautifulSoup
 import requests
 from gensim import corpora
