@@ -40,11 +40,11 @@ def upload_page():
         if file and allowed_file(file.filename):
             try:
                 if file.filename.rsplit('.',1)[1].lower() in extensions1:
-                    c = picture(file)
+                    c = picture(file.filename)
                 elif file.filename.rsplit('.',1)[1].lower() in extensions2:
-                   c = pdf(file)
+                   c = pdf(file.filename)
                 else:
-                   c = txt(file)
+                   c = txt(file.filename)
             except IndexError:
                 c= txt(file)
             extracted_text = sim(c)
