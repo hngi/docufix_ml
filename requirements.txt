@@ -10,3 +10,4 @@ requests
 PyPDF2
 PyMuPDF
 gensim
+Werkzeug
