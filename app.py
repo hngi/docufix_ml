@@ -88,7 +88,7 @@ def google_search(search_term, api_key, cse_id, **kwargs):
           res = service.cse().list(q=search_term, cx=cse_id, **kwargs).execute()
           return res['items']
     except KeyError:
-        return None
+        return ['No match', 'No match', 'No match']
 def check(text):
          p = GingerIt()
          q = p.parse(text)
@@ -109,11 +109,11 @@ def word(c):
    import pickle
    pickle.dump(corpus, open('corpus.pkl', 'wb'))
    dictionary.save('dictionary.gensim') 
-   NUM_TOPICS = 25
+   NUM_TOPICS = 15
    ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics = NUM_TOPICS, id2word=dictionary, passes=15)
    ldamodel.save('model1.gensim')
    from gensim.parsing.preprocessing import preprocess_string, strip_punctuation,strip_numeric
-   lda_topics = ldamodel.show_topics(num_words=7)
+   lda_topics = ldamodel.show_topics(num_words=4)
    topics = []
    filters = [lambda x: x.lower(), strip_punctuation, strip_numeric]
    for topic in lda_topics:
@@ -129,7 +129,7 @@ def word(c):
    gg =[]
    for m in tp[:3]:
        e = check(m)
-       results= google_search(e,my_api_key,my_cse_id,num=10)
+       results= google_search(e,my_api_key,my_cse_id,num=5)
        j = []    
        for result in results[:3]:   
            url=result["link"]   
