@@ -115,12 +115,8 @@ def word(c):
        f_text.append(final_text)
    dictionary = corpora.Dictionary(f_text)
    corpus = [dictionary.doc2bow(text) for text in f_text]
-   import pickle
-   pickle.dump(corpus, open('corpus.pkl', 'wb'))
-   dictionary.save('dictionary.gensim') 
    NUM_TOPICS = 15
-   ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics = NUM_TOPICS, id2word=dictionary,chunksize=100, passes=10)
-   ldamodel.save('model1.gensim')
+   ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics = NUM_TOPICS, id2word=dictionary,random_state=100,iterations=25, chunksize=100, passes=10)
    from gensim.parsing.preprocessing import preprocess_string, strip_punctuation,strip_numeric
    lda_topics = ldamodel.show_topics(num_words=5)
    topics = []
@@ -136,14 +132,18 @@ def word(c):
    my_api_key = "AIzaSyCaugQenN9PpH5I6agQTcFlkf8hbyAEOKw"
    my_cse_id = "000757437883487112859:wtcjp5mwqmu"
    cp=[]
-   for z in tp:
-    if len(z) >1:
-        cp.append(z)
+   for z in range(len(tp)):
+    for y in range(len(tp)-z-1):
+        if len(tp[y]) <=len(tp[y+1]):
+            tp[y],tp[y+1]=tp[y+1],tp[y]
+            
+    if len(tp[z]) >15:
+        cp.append(tp[z])
    if len(cp)>=2:
        gg =[]
        for m in cp[:2]:
         e = check(m)
-        results= google_search(e,my_api_key,my_cse_id,num=5)
+        results= google_search(e,my_api_key,my_cse_id,num=3)
         jj = []    
         for result in results[:2]:   
                url=result["link"]   
@@ -156,11 +156,11 @@ def word(c):
                    bb = bb+' '+vv
                jj.append(bb)
         gg.append(jj)
-   else:
+   elif len(cp)<2:
        gg =[]
        for m in cp:
         e = check(m)
-        results= google_search(e,my_api_key,my_cse_id,num=5)
+        results= google_search(e,my_api_key,my_cse_id,num=3)
         jj = []    
         for result in results[:2]:   
                url=result["link"]   
@@ -187,7 +187,7 @@ def sim(c):
            b.append(cosine_sim)
        l= max(b)
        cc.append(l)
-    if max(cc)>=80:
+    if max(cc)>=75:
         pp = 'Warning! Plagiarised text detected'
     else:
         pp = 'No Plagiarised info found'
