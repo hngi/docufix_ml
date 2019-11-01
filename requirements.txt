@@ -1,6 +1,7 @@
 beautifulsoup4
 google-api-python-client
 flask
+redis
 gunicorn
 pytesseract
 gingerit
