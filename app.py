@@ -128,26 +128,26 @@ def word(c):
    topics = []
    filters = [lambda x: x.lower(), strip_punctuation, strip_numeric]
    for topic in lda_topics:
-    topics.append(preprocess_string(topic[1], filters))'''
+    topics.append(preprocess_string(topic[1], filters))
    tp = []
-   for i in tok_text:
+   for i in topics:
         y =''
         for j in i:
             y=y+' '+j
-        tp.append(y)
+        tp.append(y)'''
    my_api_key = "AIzaSyCaugQenN9PpH5I6agQTcFlkf8hbyAEOKw"
    my_cse_id = "000757437883487112859:wtcjp5mwqmu"
    gg =[]
    cp=[]
-   for z in tp:
+   '''for z in tp:
     if len(z) >1:
-        cp.append(z)
-   if len(cp)>=2:
-       for m in cp[:2]:
+        cp.append(z)'''
+   if len(tok_text)>=2:
+       for m in tok_text[:2]:
         e = check(m)
         results= google_search(e,my_api_key,my_cse_id,num=5)
    else:
-       for m in cp:
+       for m in tok_text:
         e = check(m)
         results= google_search(e,my_api_key,my_cse_id,num=5)
    j = []    
