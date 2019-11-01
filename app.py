@@ -6,6 +6,8 @@ from googleapiclient.discovery import build
 import PyPDF2
 import fitz
 import os
+from rq import Queue
+from worker import conn
 from bs4 import BeautifulSoup
 import requests
 from gensim import corpora
@@ -51,6 +53,9 @@ def upload_page():
             except IndexError:
                 c= txt(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             extracted_text = sim(c)
+            q = Queue(connection=conn)
+            from utils import count_words_at_url  
+            result = q.enqueue(count_words_at_url, 'http://heroku.com')
             if extracted_text == '':
                 replyy = 'Sorry Character could not be clearly recognized'
                 return render_template('upload.html', msg=replyy)
