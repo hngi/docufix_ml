@@ -13,3 +13,4 @@ gensim
 Werkzeug
 fuzzywuzzy
 python-docx
+python-levenshtein
