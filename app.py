@@ -139,7 +139,7 @@ def word(c):
    else:
        for m in cp:
         e = check(m)
-        results= google—search(e,my_api_key,my_cse_id,num=3)
+        results= google_search(e,my_api_key,my_cse_id,num=3)
    j = []    
    for result in results[:2]:   
            url=result["link"]   
