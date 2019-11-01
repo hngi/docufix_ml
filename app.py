@@ -58,9 +58,9 @@ def upload_page():
             q = sim(c)
             if q == '':
                 replyy = 'Sorry Character could not be clearly recognized'
-                return render_template('upload.html', msg=replyy)
+                return render_template('upload.html', text=replyy)
             # extract the text and display it
-            return render_template('upload.html', msg='Result '+q)
+            return render_template('upload.html', text='Result '+q)
     
     return render_template('upload.html')
 def allowed_file(filename):
