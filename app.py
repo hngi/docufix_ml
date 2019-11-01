@@ -60,7 +60,7 @@ def upload_page():
                 replyy = 'Sorry Character could not be clearly recognized'
                 return render_template('upload.html', text=replyy)
             # extract the text and display it
-            return render_template('upload.html', text='Result '+q)
+            return render_template('upload.html', text='Result: '+q)
     
     return render_template('upload.html')
 def allowed_file(filename):
@@ -135,13 +135,13 @@ def word(c):
    if len(cp)>=2:
        for m in cp[:2]:
         e = check(m)
-        results= google_search(e,my_api_key,my_cse_id,num=3)
+        results= google_search(e,my_api_key,my_cse_id,num=5)
    else:
        for m in cp:
         e = check(m)
-        results= google_search(e,my_api_key,my_cse_id,num=3)
+        results= google_search(e,my_api_key,my_cse_id,num=5)
    j = []    
-   for result in results[:2]:   
+   for result in results[:3]:   
            url=result["link"]   
            html_content = requests.get(url) 
            soup = BeautifulSoup(html_content.content, 'html.parser')
