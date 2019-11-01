@@ -1,0 +1,15 @@
+beautifulsoup4
+google-api-python-client
+flask
+gunicorn
+pytesseract
+gingerit
+pillow
+nltk
+requests
+PyPDF2
+PyMuPDF
+gensim
+Werkzeug
+rq
+python-docx
