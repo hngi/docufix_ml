@@ -7,7 +7,6 @@ gingerit
 pillow
 nltk
 requests
-PyPDF2
 PyMuPDF
 gensim
 Werkzeug
