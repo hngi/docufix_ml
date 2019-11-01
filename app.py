@@ -196,7 +196,7 @@ def sim(c):
   elif az>0 and az<75:
         pp = 'No Plagiarised info found'
   else:
-        pp = 'Error: not found'
+        pp = 'Error: something went wrong!'
   return pp,str(az)
 
 if __name__ == '__main__':
