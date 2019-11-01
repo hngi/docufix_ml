@@ -6,7 +6,7 @@ from googleapiclient.discovery import build
 import PyPDF2
 import fitz
 import os
-from rq import Queue
+import docx
 from worker import conn
 from bs4 import BeautifulSoup
 import requests
@@ -16,13 +16,14 @@ from difflib import SequenceMatcher
 from gingerit.gingerit import GingerIt
 from flask import Flask, request,render_template
 from werkzeug.utils import secure_filename
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg','bmp','pdf','svg','epub'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg','bmp','pdf','svg','epub','docx'])
 app = Flask(__name__)
 UPLOAD_FOLDER = './templates'
 app.config['UPLOAD_FOLDER']=UPLOAD_FOLDER
 stop_words = stopwords.words("english")
 extensions1 = ['jpg','png','jpeg','bmp','svg']
 extensions2= ['pdf','xps','epub']
+extensions3=['docx']
 pt.pytesseract.tesseract_cmd = '/app/.apt/usr/bin/tesseract'
 #picture function
 # route and function to handle the upload page
@@ -48,6 +49,9 @@ def upload_page():
                     c = picture(os.path.join(app.config['UPLOAD_FOLDER'],fname))
                 elif file.filename.rsplit('.',1)[1].lower() in extensions2:
                    c = pdf(os.path.join(app.config['UPLOAD_FOLDER'], fname))
+                
+                elif file.filename.rsplit('.',1)[1].lower() in extensions3:
+                    c= docu(os.path.join(app.config['UPLOAD_FOLDER'], fname))
                 else:
                    c = txt(os.path.join(app.config['UPLOAD_FOLDER'], fname))
             except IndexError:
@@ -73,6 +77,12 @@ def picture(filename):
 def txt(text):
     t = open(text)
     return t
+def docu(filename):
+    doc = docx.Document(filename)
+    fullText = []
+    for para in doc.paragraphs:
+        fullText.append(para.text)
+    return '\n'.join(fullText)
 def pdf(filename):
     file = open(filename,'rb')
     filereader = PyPDF2.PdfFileReader(file)
