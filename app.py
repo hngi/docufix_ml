@@ -70,8 +70,9 @@ def picture(filename):
     return text
 #text function
 def txt(text):
-    t = open(text)
-    return t
+    t = open(text,'r')
+    jn = t.read()
+    return jn
 def docu(filename):
     doc = docx.Document(filename)
     fullText = []
@@ -125,45 +126,41 @@ def word(c):
         tp.append(y)
    my_api_key = "AIzaSyCaugQenN9PpH5I6agQTcFlkf8hbyAEOKw"
    my_cse_id = "000757437883487112859:wtcjp5mwqmu"
-   cp=[]
    for z in range(len(tp)):
     for y in range(len(tp)-z-1):
         if len(tp[y]) <=len(tp[y+1]):
             tp[y],tp[y+1]=tp[y+1],tp[y]
-            
-    if len(tp[z]) >15:
-        cp.append(tp[z])
-   if len(cp)>=2:
+   if len(tp)>=2:
        gg =[]
-       for m in cp[:2]:
+       for m in tp[:2]:
         e = check(m)
-        results= google_search(e,my_api_key,my_cse_id,num=3)
+        results= google_search(e,my_api_key,my_cse_id,num=2)
         jj = []    
-        for result in results[:2]:   
+        for result in results:   
                url=result["link"]   
                html_content = requests.get(url) 
                soup = BeautifulSoup(html_content.content, 'html.parser')
                v = soup.findAll('p')
                bb=''
                for x in range(len(v)):
-                   vv = soup.findAll('p')[x].get_text()
+                   vv = v[x].get_text()
                    bb = bb+' '+vv
                jj.append(bb)
         gg.append(jj)
-   elif len(cp)<2:
+   elif len(tp)<2:
        gg =[]
-       for m in cp:
+       for m in tp:
         e = check(m)
-        results= google_search(e,my_api_key,my_cse_id,num=3)
+        results= google_search(e,my_api_key,my_cse_id,num=2)
         jj = []    
-        for result in results[:2]:   
+        for result in results:   
                url=result["link"]   
                html_content = requests.get(url) 
                soup = BeautifulSoup(html_content.content, 'html.parser')
                v = soup.findAll('p')
                bb=''
                for x in range(len(v)):
-                   vv = soup.findAll('p')[x].get_text()
+                   vv = v[x].get_text()
                    bb = bb+' '+vv
                jj.append(bb)
         gg.append(jj)
@@ -185,9 +182,9 @@ def sim(c):
     az = max(cc)
   except ValueError:
       az = 0
-  if az>=60:
+  if az>=65:
         pp = 'Warning! Plagiarised texts detected'
-  elif az>0 and az<60:
+  elif az>0 and az<65:
         pp = 'No much Plagiarised texts found'
   else:
         pp = 'Error: something went wrong!'
