@@ -71,7 +71,8 @@ def picture(filename):
 #text function
 def txt(text):
     t = open(text,'r')
-    return t.read()
+    jn = t.read()
+    return jn
 def docu(filename):
     doc = docx.Document(filename)
     fullText = []
